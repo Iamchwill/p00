@@ -5,7 +5,12 @@ P00 -- Move Slowly and Fix Things -- P00
 -------------------------------------------------------------------------------------
 williamC -- 2021-10-28 17:40
 Pushing the basic repo parts.
-Design Doc V0 feedback:
+Design Doc V2 feedback:
 - Logout should link to landing page instead maybe?
 - Figure out system to find other people's blog. (Simplest idea: landing page has 'em)
 - Databases need more in-depth explanations.
+
+Changes:
+- Restructured Databases
+- Changed language to be more specific
+- Rearranged Fearture Timeline
