@@ -1,3 +1,4 @@
+# Reminder to pull first
 # First Project
 William Chen, Shriya Anand, Edwin Zheng, Zhao Yu Lin<br>
 SoftDev<br>
