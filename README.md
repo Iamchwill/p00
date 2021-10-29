@@ -1,6 +1,6 @@
 # First Project
-William Chen, Shriya Anand, Edwin Zheng, Zhao Yu Lin
-SoftDev
+William Chen, Shriya Anand, Edwin Zheng, Zhao Yu Lin<br>
+SoftDev<br>
 Pd1
 
 # App Description
