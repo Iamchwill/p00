@@ -2,7 +2,7 @@
 # CitrusBlog by OrangeLemon
 William Chen - Project Manager
 <br>
-Shriya Anand - Devo (
+Shriya Anand - Devo
 <br>
 Edwin Zheng - Devo
 <br>
