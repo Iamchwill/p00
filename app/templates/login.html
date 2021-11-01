@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- BlueGreen (Edwin Zheng, Shriya Anand, Zhaoyu Lin)
+SoftDev
+K15: Sessions Greetings
+Oct 20, 2021 -->
+
+<html>
+
+  <head>
+    <title> LOGIN PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      Welcome, Travelers of the Intertoobz!
+    </h1>
+
+    <form action="/auth">
+      <p>
+        Username:
+      </p>
+      <input type="text" name="username">
+      <p>
+        Password:
+      </p>
+      <input type="text" name="password">
+      <br>
+      <input type="submit" name="sub1">
+    </form>
+    <br>
+    {{login_fail}} <!-- This adds a message indicating why the login is unsuccessful. This will be an empty string if there is no error. -->
+  </body>
+
+</html>

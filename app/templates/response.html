@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+BlueGreen (Edwin Zheng, Shriya Anand, Zhaoyu Lin)
+SoftDev
+K15: Sessions Greetings
+Oct 20, 2021
+-->
+
+
+<html>
+
+  <head>
+    <title> LOGIN PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      Welcome, Travelers of the Intertoobz!
+    </h1>
+    <h2>BlueGreen (Edwin Zheng, Shriya Anand, Zhaoyu Lin)</h2> <!-- Roster name -->
+    <br>
+    <p>Status : LOGGED IN SUCCESSFULLY</p>
+    <P>Hello {{user}}, how are you?</P> <!-- This greets the user based off their username-->
+
+    <form action="/logout" method="post">
+			<input type="submit" name="logout" value = "Logout"> <!-- This adds a button to logout for logged-in users-->
+    </form>
+
+  </body>
+
+</html>
