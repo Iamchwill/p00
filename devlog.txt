@@ -19,6 +19,7 @@ ShriyaA -- 2020-10-28
 Adding code from previous assignment:
 - Deals with log-in
 
-ZhaoL -- 2020-11-01
+ZhaoL -- 2020-11-01 08:20
 
 Reformated repo structure
+Started work on requirements.txt
