@@ -14,3 +14,7 @@ Duesb Doc V1 Changes:
 - Restructured Databases
 - Changed language to be more specific
 - Rearranged Fearture Timeline
+
+ShriyaA -- 2020-10-28
+Adding code from previous assignment:
+- Deals with log-in
