@@ -22,3 +22,4 @@ Adding code from previous assignment:
 ZhaoL -- 2020-11-01 08:20
 -Reformated repo structure
 -Started work on requirements.txt
+-started with databases
