@@ -12,20 +12,33 @@ Oct 20, 2021 -->
 
   <body>
     <h1>
-      Welcome, Travelers of the Intertoobz!
+      OrangeLemon
+      Shriya, Zhaoyu, Edwin, William
     </h1>
+    <h2>
+      Welcome! Please Log-In/Register to View the Blogs.
+
+    </h2>
+
+    <h3> Login here: </h3>
 
     <form action="/auth">
       <p>
-        Username:
+        &emsp; Username:
       </p>
-      <input type="text" name="username">
+        &emsp; <input type="text" name="username">
       <p>
-        Password:
+        &emsp; Password:
       </p>
-      <input type="text" name="password">
+        &emsp; <input type="text" name="password">
       <br>
-      <input type="submit" name="sub1">
+      <br>
+        &emsp; <input type="submit" name="sub1" value = "Log-in">
+    </form>
+
+    <form action = "/reg">
+      <br>
+      &emsp;<input type = "button" name = "register" value = "Not registered? Click here">
     </form>
     <br>
     {{login_fail}} <!-- This adds a message indicating why the login is unsuccessful. This will be an empty string if there is no error. -->

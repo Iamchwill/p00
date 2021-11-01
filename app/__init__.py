@@ -32,6 +32,9 @@ def authenticate():
         session["userID"] = request.args['username']
         return render_template('response.html', user = session.get("userID"))
     return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
+# @app.route("/reg", methods=['GET', 'POST'])
+# def register():
+#     return render_template('register.html')
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
