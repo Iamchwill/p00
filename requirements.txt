@@ -1,12 +1,6 @@
-Requirements:
-
-Install Flask:
-Choose a directory to install flask under
-in terminal, do :
-$ python3 -m venv ~/yourVirtualEnvironmentName
-once it has been created,there should be (<venvname>) on your command line, where you can then install flask there using
-$ pip3 install flask
-
-
-
-Versions:
+click==8.0.1
+Flask==2.0.1
+itsdangerous==2.0.1
+Jinja2==3.0.1
+MarkupSafe==2.0.1
+Werkzeug==2.0.1
