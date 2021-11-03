@@ -30,12 +30,19 @@ def authenticate():
 
     if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Usernamet
         session["userID"] = request.args['username']
+
         return render_template('response.html', user = session.get("userID"))
     return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
-@app.route("/reg", methods=['GET', 'POST'])
+@app.route("/reg1", methods=['GET', 'POST'])
 def register():
-     return render_template('register.html')
+    return render_template('register.html')
+
+#@app.route("/reg2", methods=['GET', 'POST'])
+        # ADD USERID TO THE DB HERE
+
+    return render_template('response.html', user = session.get("userID"))
+
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
