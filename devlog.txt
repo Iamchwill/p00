@@ -33,3 +33,6 @@ ShriyaA -- 2021-11-3 8:34
 Worked on the register
 - added the register html
 - worked with zhao to figure out the create table for usernames/passwd
+
+ShriyaA -- 2021-11-4 8:41
+- worked on the arguments of the register.html
