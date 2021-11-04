@@ -59,6 +59,33 @@ def logout():
     if session.get("userID") == "Traveler": #If username does exist, remove it from session and return the login page
         session.pop("userID")
     return render_template('login.html', login_html = "")
+@app.route('/register.html',methods = ['GET','POST'])
+def addrec():
+    if request.method == 'POST':
+        try:
+            username = request.form['username']
+            password = request.form['password']
+            with sql.connect(DB_FILE) as db:
+                    #open if file exists, otherwise create
+                    c = db.cursor()
+                    c.execute("INSERT INTO userinfo (username,password) VALUES (?,?)",(username,password) )
+
+                    db.commit()
+                    msg = "Record successfully added"
+                    db.close()
+        except:
+            print("error")
+    print('didnt access')
+@app.route('/list.html')
+def list():
+   con = sql.connect(DB_FILE)
+   con.row_factory = sql.Row
+
+   cur = con.cursor()
+   cur.execute("select * from userinfo")
+
+   rows = cur.fetchall();
+   return render_template("list.html",rows = rows)
 
 
 if __name__ == "__main__": #false if this file imported as module
