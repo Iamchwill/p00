@@ -35,13 +35,23 @@ def authenticate():
     return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
 @app.route("/reg1", methods=['GET', 'POST'])
-def register():
+def reg1():
     return render_template('register.html')
 
-#@app.route("/reg2", methods=['GET', 'POST'])
-        # ADD USERID TO THE DB HERE
+@app.route("/reg2", methods=['GET', 'POST'])
+def reg2():
+    error = "ERROR: "
+    if (request.args['regUser'] == "Traveler"):
+        error += "Pre-existing username. Please choose a different username"
+    if (len(request.args['regUser']) == 0 or len(request.args['regPass']) == 0):
+        error += "Empty field. Please fill out the fields"
 
-    return render_template('response.html', user = session.get("userID"))
+    if (error == "ERROR: "):
+        return render_template('response.html')
+            # ADD USERID TO THE DB HERE
+
+    return render_template('register.html', error = error)
+    # return render_template('response.html', user = session.get("userID"))
 
 
 @app.route("/logout", methods=['POST']) #Logout method
