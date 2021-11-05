@@ -42,3 +42,6 @@ ZhaoL -- 2021-11-4 8:41
 
 ZhaoL -- 2021-11-5 8:41
 - created a working login database that stores userinfo with shriya
+
+ShriyaA -- 2021--11-5 8:40
+- worked with zhao to create a working login database and started working on the insert into methods.
