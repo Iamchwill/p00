@@ -5,14 +5,15 @@
 
 from flask import Flask, render_template, request, session     #facilitate flask webservingimport
 import os
-import sqlite3 as sql
+import sqlite3
 app = Flask(__name__)    #create Flask object
 app.secret_key = os.urandom(32) #create random key
-
+DB_FILE = "discobandit.db"
 @app.route("/") #,methods=['GET', 'POST'])
 def disp_loginpage():
     response = ""
     if "userID" not in session: #check if there is the correct user name stored in session
+        addrec()
         return render_template( 'login.html', login_fail = "" ) #return login page if correct user name is not stored in session
     else:
         return render_template('response.html', user = session.get("userID")) #return response page if correct user name is stored in session
@@ -30,6 +31,8 @@ def authenticate():
 
     if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Usernamet
         session["userID"] = request.args['username']
+        insert('userinfo')
+
 
         return render_template('response.html', user = session.get("userID"))
     return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
@@ -59,30 +62,27 @@ def logout():
     if session.get("userID") == "Traveler": #If username does exist, remove it from session and return the login page
         session.pop("userID")
     return render_template('login.html', login_html = "")
-DB_FILE = "discobandit.db"
-@app.route('/register',methods = ['GET','POST'])
+
+@app.route('/',methods = ['GET','POST'])
 def addrec():
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()
+    c.execute("DROP TABLE IF EXISTS userinfo")
     c.execute("CREATE TABLE userinfo (username TEXT, password TEXT)")
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
             username = request.form['username']
             password = request.form['password']
-            with sql.connect(DB_FILE) as db:
-                    #open if file exists, otherwise create
-                    c = db.cursor()
-                    c.execute("INSERT INTO userinfo (username,password) VALUES (?,?)",(username,password) )
 
-                    db.commit()
-                    msg = "Record successfully added"
-                    db.close()
         except:
             print("error")
-    print('didnt access')
+    print('***rendered templated***')
+    return render_template('list.html')
 @app.route('/list')
 def list():
-   con = sql.connect(DB_FILE)
-   con.row_factory = sql.Row
+   con = sqlite3.connect(DB_FILE)
+   con.row_factory = sqlite3.Row
 
    cur = con.cursor()
    cur.execute("select * from userinfo")
@@ -90,6 +90,14 @@ def list():
    rows = cur.fetchall();
    return render_template("list.html",rows = rows)
 
+def insert(table_name):
+    with sqlite3.connect(DB_FILE) as db:
+            #open if file exists, otherwise create
+            c = db.cursor()
+            c.execute("INSERT INTO" + table_name + "(username,password) VALUES (?,?)",(username,password) )
+
+            db.commit()
+            msg = "Record successfully added"
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
