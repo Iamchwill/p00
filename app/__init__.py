@@ -5,7 +5,7 @@
 
 from flask import Flask, render_template, request, session     #facilitate flask webservingimport
 import os
-
+import sqlite3 as sql
 app = Flask(__name__)    #create Flask object
 app.secret_key = os.urandom(32) #create random key
 
@@ -59,8 +59,11 @@ def logout():
     if session.get("userID") == "Traveler": #If username does exist, remove it from session and return the login page
         session.pop("userID")
     return render_template('login.html', login_html = "")
-@app.route('/register.html',methods = ['GET','POST'])
+DB_FILE = "discobandit.db"
+@app.route('/register',methods = ['GET','POST'])
 def addrec():
+    c.execute("CREATE TABLE userinfo (username TEXT, password TEXT)")
+    print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
             username = request.form['username']
