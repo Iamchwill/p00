@@ -76,7 +76,7 @@ def addrec():
         except:
             print("error")
     print('didnt access')
-@app.route('/list.html')
+@app.route('/list')
 def list():
    con = sql.connect(DB_FILE)
    con.row_factory = sql.Row
