@@ -29,9 +29,11 @@ def authenticate():
     if(request.args['password'] != password): #check if password is correct
         response += "incorrect password ---"
 
-    if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Usernamet
+    if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Username, store in database
         session["userID"] = request.args['username']
-        insert('userinfo')
+        insert("userinfo", request.args['username'], request.args['password'])
+        print("************************" + session["userID"])
+
 
 
         return render_template('response.html', user = session.get("userID"))
@@ -50,6 +52,10 @@ def reg2():
         error += "Empty field. Please fill out the fields"
 
     if (error == "ERROR: "):
+        #if userID is valid, store in database
+        session["userID"] = request.args['regUser']
+        insert("userinfo", request.args['regUser'], request.args['regPass'])
+        print("************************" + session["userID"])
         return render_template('response.html')
             # ADD USERID TO THE DB HERE
 
@@ -90,11 +96,11 @@ def list():
    rows = cur.fetchall();
    return render_template("list.html",rows = rows)
 
-def insert(table_name):
+def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
             c = db.cursor()
-            c.execute("INSERT INTO" + table_name + "(username,password) VALUES (?,?)",(username,password) )
+            c.execute("INSERT INTO " + table_name + "(username,password) VALUES (?,?)",(username,password) )
 
             db.commit()
             msg = "Record successfully added"
