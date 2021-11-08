@@ -56,17 +56,19 @@ def reg2():
         session["userID"] = request.args['regUser']
         insert("userinfo", request.args['regUser'], request.args['regPass'])
         print("************************" + session["userID"])
-        return render_template('response.html')
+        return render_template('response.html',user = request.args['regUser'])
             # ADD USERID TO THE DB HERE
 
     return render_template('register.html', error = error)
     # return render_template('response.html', user = session.get("userID"))
 
-
+def check_existence(table_name, value):
+    #check if user exists in DB
+    #arg = tablename,
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
     if session.get("userID") == "Traveler": #If username does exist, remove it from session and return the login page
-        session.pop("userID")
+        session.pop(session[-1])
     return render_template('login.html', login_html = "")
 
 @app.route('/',methods = ['GET','POST'])
