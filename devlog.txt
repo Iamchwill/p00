@@ -9,7 +9,6 @@ Design Doc V0 feedback:
 - Logout should link to landing page instead maybe?
 - Figure out system to find other people's blog. (Simplest idea: landing page has 'em)
 - Databases need more in-depth explanations.
-
 Duesb Doc V1 Changes:
 - Restructured Databases
 - Changed language to be more specific
@@ -20,7 +19,6 @@ Adding code from previous assignment:
 - Deals with log-in
 
 ZhaoL -- 2020-11-01 08:20
-
 Reformated repo structure
 Started work on requirements.txt
 
@@ -43,5 +41,10 @@ ZhaoL -- 2021-11-4 8:41
 ZhaoL -- 2021-11-5 8:41
 - created a working login database that stores userinfo with shriya
 
-ShriyaA -- 2021--11-5 8:40
+ShriyaA -- 2021-11-5 8:40
 - worked with zhao to create a working login database and started working on the insert into methods.
+
+WilliamC -- 2021-11-9 2:15
+- Added on to requirements.txt
+- Fixed small errors in devlog
+- Flag.jpg is corrupted and in wrong place
