@@ -50,11 +50,13 @@ def reg2():
         error += "Pre-existing username. Please choose a different username"
     if (len(request.args['regUser']) == 0 or len(request.args['regPass']) == 0):
         error += "Empty field. Please fill out the fields"
-
+    if(check_existence(request.args['regUser'])):
+        error += "Username already exists"
     if (error == "ERROR: "):
         #if userID is valid, store in database
         session["userID"] = request.args['regUser']
         insert("userinfo", request.args['regUser'], request.args['regPass'])
+
         print("************************" + session["userID"])
         return render_template('response.html',user = request.args['regUser'])
             # ADD USERID TO THE DB HERE
@@ -62,10 +64,16 @@ def reg2():
     return render_template('register.html', error = error)
     # return render_template('response.html', user = session.get("userID"))
 
-def check_existence(table_name, value):
-    #check if user exists in DB
+def check_existence(value):
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()
+    print("************" + value)
+    return c.execute("SELECT COUNT(username) FROM userinfo WHERE userinfo.username = '%value%'")
+    # c.execute("SELECT EXISTS(SELECT * FROM table_name WHERE table_name.column = value)")
+
+    # c.execute("SELECT " + value +"FROM "+ table_name "WHERE " + value + "LIKE "%search%"")
     #arg = tablename,
-    return 1
+
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
     if len(session.get("userID")) > 0: #If username does exist, remove it from session and return the login page
@@ -76,7 +84,7 @@ def logout():
 def addrec():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
+    c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")#creates table
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
@@ -94,7 +102,6 @@ def list():
 
    cur = con.cursor()
    cur.execute("select * from userinfo")
-
    rows = cur.fetchall();
    return render_template("list.html",rows = rows)
 
