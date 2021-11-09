@@ -1,12 +1,12 @@
 # Reminder to pull first
 # CitrusBlog by OrangeLemon
-William Chen - Project Manager
+William Chen - Project Manager (Search)
 <br>
-Shriya Anand - Devo
+Shriya Anand - Devo (Login - Front End)
 <br>
-Edwin Zheng - Devo
+Edwin Zheng - Devo (Blog Enrries)
 <br>
-Zhao Yu Lin - Devo 
+Zhao Yu Lin - Devo (Login - Back End)
 SoftDev<br>
 Pd1
 
