@@ -52,3 +52,8 @@ WilliamC -- 2021-11-9 2:15
 - Added on to requirements.txt
 - Fixed small errors in devlog
 - Flag.jpg is corrupted and in wrong place
+
+WilliamC -- 2021-11-9 9:41
+- Added feature roles to readme
+
+
