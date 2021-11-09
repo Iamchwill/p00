@@ -5,13 +5,15 @@
       <table border = 1>
          <thead>
             <td>Username</td>
-            <td>Password>/td<
+            <td>Password</td>
+            <td>Primary Key</td>
          </thead>
 
          {% for row in rows %}
             <tr>
                <td>{{row["username"]}}</td>
                <td>{{row["password"]}}</td>
+               <td>{{row["BlogID"]}}</td>
             </tr>
          {% endfor %}
       </table>

@@ -74,9 +74,16 @@ def logout():
 @app.route('/',methods = ['GET','POST'])
 def addrec():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    db.execute('pragma foreign_keys=ON')
     c = db.cursor()
+<<<<<<< Updated upstream
     c.execute("DROP TABLE IF EXISTS userinfo")
     c.execute("CREATE TABLE userinfo (username TEXT, password TEXT)")
+=======
+    c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
+    c.execute("CREATE TABLE IF NOT EXISTS bloginfo (EntryID INTEGER PRIMARY KEY, BlogTitle TEXT, BlogID INTEGER, CONSTRAINT fk_userinfo FOREIGN KEY(BlogID) REFERENCES userinfo(BlogID))")
+    c.execute("CREATE TABLE IF NOT EXISTS entryinfo (EntryNum TEXT, EntryTitle TEXT, Entry TEXT, EntryID INTEGER, CONSTRAINT fk_bloginfo FOREIGN KEY(EntryID) REFERENCES bloginfo(EntryID))")
+>>>>>>> Stashed changes
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
@@ -106,6 +113,11 @@ def insert(table_name, username, password):#insert user and password into table
 
             db.commit()
             msg = "Record successfully added"
+
+def createblog(username, blogtitle):
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute()
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
