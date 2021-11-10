@@ -26,10 +26,10 @@ def authenticate():
     response = "TRY AGAIN: "
 
     #checking if username and password exists in database
-    if(!(check_existence(request.args['username']))):
-    response += "incorrect username --- "
-    if(!(check_existence(request.args['password']))):
-    response += "incorrect password ---"
+    if(check_existence(request.args['username']) == False):
+        response += "incorrect username --- "
+    if(check_existence(request.args['password']) == False):
+        response += "incorrect password ---"
 
     # if(request.args['username'] != username): #check if username is correct
     #     response += "incorrect username --- "
