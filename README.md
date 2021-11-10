@@ -1,13 +1,15 @@
 # Reminder to pull first
 # CitrusBlog by OrangeLemon
-William Chen - Project Manager
+William Chen - Project Manager (Search)
 <br>
-Shriya Anand - Devo
+Shriya Anand - Devo (Login - Front End)
 <br>
-Edwin Zheng - Devo
+Edwin Zheng - Devo (Blog Enrries)
 <br>
-Zhao Yu Lin - Devo 
-<br>SoftDev Pd1
+
+Zhao Yu Lin - Devo (Login - Back End)
+SoftDev<br>
+Pd1
 
 # App Description
 Our website is a blog where users are be able to create an account and begin making blogs where they can add entries.

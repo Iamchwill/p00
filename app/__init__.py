@@ -51,11 +51,13 @@ def reg2():
         error += "Pre-existing username. Please choose a different username"
     if (len(request.args['regUser']) == 0 or len(request.args['regPass']) == 0):
         error += "Empty field. Please fill out the fields"
-
+    if(check_existence(request.args['regUser'])):
+        error += "Username already exists"
     if (error == "ERROR: "):
         #if userID is valid, store in database
         session["userID"] = request.args['regUser']
         insert("userinfo", request.args['regUser'], request.args['regPass'])
+
         print("************************" + session["userID"])
         return render_template('response.html',user = request.args['regUser'])
             # ADD USERID TO THE DB HERE
@@ -63,10 +65,16 @@ def reg2():
     return render_template('register.html', error = error)
     # return render_template('response.html', user = session.get("userID"))
 
-def check_existence(table_name, value):
-    #check if user exists in DB
+def check_existence(value):
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()
+    print("************" + value)
+    return c.execute("SELECT COUNT(username) FROM userinfo WHERE userinfo.username = '%value%'")
+    # c.execute("SELECT EXISTS(SELECT * FROM table_name WHERE table_name.column = value)")
+
+    # c.execute("SELECT " + value +"FROM "+ table_name "WHERE " + value + "LIKE "%search%"")
     #arg = tablename,
-    return 1
+
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
     if len(session.get("userID")) > 0: #If username does exist, remove it from session and return the login page
@@ -78,9 +86,11 @@ def addrec():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     db.execute('pragma foreign_keys=ON')
     c = db.cursor()
+
     c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
     c.execute("CREATE TABLE IF NOT EXISTS bloginfo (EntryID INTEGER PRIMARY KEY, BlogTitle TEXT, BlogID INTEGER, CONSTRAINT fk_userinfo FOREIGN KEY(BlogID) REFERENCES userinfo(BlogID))")
     c.execute("CREATE TABLE IF NOT EXISTS entryinfo (EntryNum TEXT, EntryTitle TEXT, Entry TEXT, EntryID INTEGER, CONSTRAINT fk_bloginfo FOREIGN KEY(EntryID) REFERENCES bloginfo(EntryID))")
+
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
@@ -106,13 +116,11 @@ def list():
    createblog(1, "test")
    return render_template("list.html",rows = rows, blog = blog)
 
-
 def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
             c = db.cursor()
             c.execute("INSERT INTO " + table_name + "(username,password) VALUES (?,?)",(username,password) )
-
             db.commit()
             msg = "Record successfully added"
 
@@ -127,6 +135,15 @@ def createblog(username, blogtitle):
         c.execute("INSERT INTO bloginfo VALUES (NULL, ?,?)",(str(blogtitle), ID) )
         db.commit()
         msg = "Blog Created"
+
+def search(keyword):
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("SELECT BlogTitle, EntryID FROM bloginfo WHERE BlogTitle LIKE '%" + keyword + "%';")
+        blogs = c.fetchall()
+        print(blogs)
+        entries = list()
+
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
