@@ -17,6 +17,21 @@
             </tr>
          {% endfor %}
       </table>
+      <table border = 1>
+         <thead>
+            <td>EntryID</td>
+            <td>BlogTitle</td>
+            <td>BlogID</td>
+         </thead>
+
+         {% for row in blog %}
+            <tr>
+               <td>{{row["EntryID"]}}</td>
+               <td>{{row["BlogTitle"]}}</td>
+               <td>{{row["BlogID"]}}</td>
+            </tr>
+         {% endfor %}
+      </table>
 
       <a href = "/">Go back to home page</a>
 

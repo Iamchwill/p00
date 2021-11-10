@@ -6,6 +6,7 @@
 from flask import Flask, render_template, request, session     #facilitate flask webservingimport
 import os
 import sqlite3
+
 app = Flask(__name__)    #create Flask object
 app.secret_key = os.urandom(32) #create random key
 DB_FILE = "discobandit.db"
@@ -65,10 +66,11 @@ def reg2():
 def check_existence(table_name, value):
     #check if user exists in DB
     #arg = tablename,
+    return 1
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
-    if session.get("userID") == "Traveler": #If username does exist, remove it from session and return the login page
-        session.pop(session[-1])
+    if len(session.get("userID")) > 0: #If username does exist, remove it from session and return the login page
+        session.pop("userID")
     return render_template('login.html', login_html = "")
 
 @app.route('/',methods = ['GET','POST'])
@@ -76,14 +78,9 @@ def addrec():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     db.execute('pragma foreign_keys=ON')
     c = db.cursor()
-<<<<<<< Updated upstream
-    c.execute("DROP TABLE IF EXISTS userinfo")
-    c.execute("CREATE TABLE userinfo (username TEXT, password TEXT)")
-=======
     c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
     c.execute("CREATE TABLE IF NOT EXISTS bloginfo (EntryID INTEGER PRIMARY KEY, BlogTitle TEXT, BlogID INTEGER, CONSTRAINT fk_userinfo FOREIGN KEY(BlogID) REFERENCES userinfo(BlogID))")
     c.execute("CREATE TABLE IF NOT EXISTS entryinfo (EntryNum TEXT, EntryTitle TEXT, Entry TEXT, EntryID INTEGER, CONSTRAINT fk_bloginfo FOREIGN KEY(EntryID) REFERENCES bloginfo(EntryID))")
->>>>>>> Stashed changes
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
@@ -102,8 +99,13 @@ def list():
    cur = con.cursor()
    cur.execute("select * from userinfo")
 
-   rows = cur.fetchall();
-   return render_template("list.html",rows = rows)
+   rows = cur.fetchall()
+   c = con.cursor()
+   c.execute("select * from bloginfo")
+   blog = c.fetchall()
+   createblog(1, "test")
+   return render_template("list.html",rows = rows, blog = blog)
+
 
 def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
@@ -116,8 +118,15 @@ def insert(table_name, username, password):#insert user and password into table
 
 def createblog(username, blogtitle):
     with sqlite3.connect(DB_FILE) as db:
-        c = db.cursor()
-        c.execute()
+        con = sqlite3.connect(DB_FILE)
+        c = con.cursor()
+        c.execute("select BlogID from userinfo group by username having username = " + str(username))
+        blogID = c.fetchone()
+        for row in blogID:
+            ID = row
+        c.execute("INSERT INTO bloginfo VALUES (NULL, ?,?)",(str(blogtitle), ID) )
+        db.commit()
+        msg = "Blog Created"
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
