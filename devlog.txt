@@ -56,4 +56,6 @@ WilliamC -- 2021-11-9 2:15
 WilliamC -- 2021-11-9 9:41
 - Added feature roles to readme
 
-
+WilliamC -- 2021-11-9 23:16
+- Added new search branch
+- Created search method for blogs
