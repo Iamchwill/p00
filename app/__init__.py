@@ -110,18 +110,17 @@ def insert(table_name, username, password):#insert user and password into table
             #open if file exists, otherwise create
             c = db.cursor()
             c.execute("INSERT INTO " + table_name + "(username,password) VALUES (?,?)",(username,password) )
-
             db.commit()
             msg = "Record successfully added"
 
-def search(table_name, keyword):
+def search(keyword):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute("SELECT blog_title, EntryID FROM " + table_name + "WHERE blog_title LIKE '%" + keyword + "%';")
+        c.execute("SELECT BlogTitle, EntryID FROM bloginfo WHERE BlogTitle LIKE '%" + keyword + "%';")
         blogs = c.fetchall()
+        print(blogs)
         entries = list()
 
-        
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True
