@@ -48,6 +48,9 @@ ShriyaA -- 2021-11-5 8:40
 ZhaoL/ShriyaA -- 2021-11-8 8:40
 -worked with Shriya on login
 
+ZhaoL/ShriyaA -- 2021-11-9 8:40
+-login and other stuff will add to devlog later
+
 WilliamC -- 2021-11-9 2:15
 - Added on to requirements.txt
 - Fixed small errors in devlog
