@@ -24,10 +24,16 @@ def authenticate():
     password = "12345"
     response = "TRY AGAIN: "
 
-    if(request.args['username'] != username): #check if username is correct
-        response += "incorrect username --- "
-    if(request.args['password'] != password): #check if password is correct
-        response += "incorrect password ---"
+    #checking if username and password exists in database
+    if(!(check_existence(request.args['username']))):
+    response += "incorrect username --- "
+    if(!(check_existence(request.args['password']))):
+    response += "incorrect password ---"
+
+    # if(request.args['username'] != username): #check if username is correct
+    #     response += "incorrect username --- "
+    # if(request.args['password'] != password): #check if password is correct
+    #     response += "incorrect password ---"
 
     if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Username, store in database
         session["userID"] = request.args['username']
@@ -85,6 +91,7 @@ def addrec():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()
     c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")#creates table
+    c.execute()
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
         try:
@@ -121,7 +128,7 @@ def search(table_name, keyword):
         blogs = c.fetchall()
         entries = list()
 
-        
+
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True
