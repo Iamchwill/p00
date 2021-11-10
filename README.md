@@ -7,8 +7,7 @@ Shriya Anand - Devo
 Edwin Zheng - Devo
 <br>
 Zhao Yu Lin - Devo 
-SoftDev<br>
-Pd1
+<br>SoftDev Pd1
 
 # App Description
 Our website is a blog where users are be able to create an account and begin making blogs where they can add entries.
