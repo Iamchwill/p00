@@ -25,26 +25,16 @@ def authenticate():
     password = "12345"
     response = "TRY AGAIN: "
 
-    #checking if username and password exists in database
-    if(check_existence(request.args['username']) == False):
-        response += "incorrect username --- "
-    if(check_existence(request.args['password']) == False):
-        response += "incorrect password ---"
+    if(not check_existence(request.args['username'])): #checks for password
+        response += "incorrect username or password"
+    #check for password matches uername
+    #if(password doesn't match username)
+        #response += "incorrect username or password"
+    if(response == "TRY AGAIN: "):
+        return render_template('response.html', user = request.args['username'])
+    else:
+        return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
-    # if(request.args['username'] != username): #check if username is correct
-    #     response += "incorrect username --- "
-    # if(request.args['password'] != password): #check if password is correct
-    #     response += "incorrect password ---"
-
-    if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Username, store in database
-        session["userID"] = request.args['username']
-        insert("userinfo", request.args['username'], request.args['password'])
-        print("************************" + session["userID"])
-
-
-
-        return render_template('response.html', user = session.get("userID"))
-    return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
 @app.route("/reg1", methods=['GET', 'POST'])
 def reg1():
@@ -72,14 +62,14 @@ def reg2():
     # return render_template('response.html', user = session.get("userID"))
 
 def check_existence(value):
-    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
-    c = db.cursor()
-    print("************" + value)
-    return c.execute("SELECT COUNT(username) FROM userinfo WHERE userinfo.username = '%value%'")
-    # c.execute("SELECT EXISTS(SELECT * FROM table_name WHERE table_name.column = value)")
-
-    # c.execute("SELECT " + value +"FROM "+ table_name "WHERE " + value + "LIKE "%search%"")
-    #arg = tablename,
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("SELECT username FROM userinfo WHERE username LIKE '%" + value + "%';")
+        listUsers = c.fetchall()
+        print(listUsers)
+        if (len(listUsers) == 0):
+            return False
+        return True
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
@@ -117,10 +107,10 @@ def list():
 
    rows = cur.fetchall()
    c = con.cursor()
-   c.execute("select * from bloginfo")
-   blog = c.fetchall()
-   createblog(1, "test")
-   return render_template("list.html",rows = rows, blog = blog)
+   # c.execute("select * from bloginfo")
+   # blog = c.fetchall()
+   # createblog(1, "test")
+   return render_template("list.html",rows = rows) #,blog = blog
 
 def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
@@ -149,7 +139,6 @@ def search(keyword):
         blogs = c.fetchall()
         print(blogs)
         entries = list()
-
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
