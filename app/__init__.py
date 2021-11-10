@@ -24,7 +24,7 @@ def authenticate():
     username = "Traveler"
     password = "12345"
     response = "TRY AGAIN: "
-
+    ## FIX IF STATEMENTS
     #checking if username and password exists in database
     if(check_existence(request.args['username']) == False):
         response += "incorrect username --- "
@@ -38,7 +38,7 @@ def authenticate():
 
     if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Username, store in database
         session["userID"] = request.args['username']
-        insert("userinfo", request.args['username'], request.args['password'])
+
         print("************************" + session["userID"])
 
 
@@ -72,14 +72,15 @@ def reg2():
     # return render_template('response.html', user = session.get("userID"))
 
 def check_existence(value):
-    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
-    c = db.cursor()
-    print("************" + value)
-    return c.execute("SELECT COUNT(username) FROM userinfo WHERE userinfo.username = '%value%'")
-    # c.execute("SELECT EXISTS(SELECT * FROM table_name WHERE table_name.column = value)")
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("SELECT username FROM userinfo WHERE username LIKE '%" + value + "%';")
+        listUsers = c.fetchall()
+        print(listUsers)
+        if (len(listUsers) == 0):
+            return False
+        return True
 
-    # c.execute("SELECT " + value +"FROM "+ table_name "WHERE " + value + "LIKE "%search%"")
-    #arg = tablename,
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
