@@ -83,7 +83,6 @@ def createblog():
          
     return render_template('response.html', user = username, blog = blog)
 
-<<<<<<< HEAD
 def validate(name, value):
     error_message = ""
     if name == "userID":
@@ -97,11 +96,10 @@ def validate(name, value):
     if name == "password":
         if len(value) < 1 or len(value) > 50:
             error_message += " Password must only have between 1 and 50 characters"
-    
+        if(value != request.args['cpass']):
+            error_message += " Passwords must match"
     return error_message
 
-=======
->>>>>>> c91acf9d9847c21871323af802cd02f2c69d1dcf
 def check_existence(value):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
