@@ -24,27 +24,17 @@ def authenticate():
     username = "Traveler"
     password = "12345"
     response = "TRY AGAIN: "
-    ## FIX IF STATEMENTS
-    #checking if username and password exists in database
-    if(check_existence(request.args['username']) == False):
-        response += "incorrect username --- "
-    if(check_existence(request.args['password']) == False):
-        response += "incorrect password ---"
 
-    # if(request.args['username'] != username): #check if username is correct
-    #     response += "incorrect username --- "
-    # if(request.args['password'] != password): #check if password is correct
-    #     response += "incorrect password ---"
+    if(not check_existence(request.args['username'])): #checks for password
+        response += "incorrect username or password"
+    #check for password matches uername
+    #if(password doesn't match username)
+        #response += "incorrect username or password"
+    if(response == "TRY AGAIN: "):
+        return render_template('response.html', user = request.args['username'])
+    else:
+        return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
-    if(response == "TRY AGAIN: "):  #If the username and password is correct, return response.html with the Username, store in database
-        session["userID"] = request.args['username']
-
-        print("************************" + session["userID"])
-
-
-
-        return render_template('response.html', user = session.get("userID"))
-    return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
 @app.route("/reg1", methods=['GET', 'POST'])
 def reg1():
@@ -80,7 +70,6 @@ def check_existence(value):
         if (len(listUsers) == 0):
             return False
         return True
-
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
@@ -118,10 +107,10 @@ def list():
 
    rows = cur.fetchall()
    c = con.cursor()
-   c.execute("select * from bloginfo")
-   blog = c.fetchall()
-   createblog(1, "test")
-   return render_template("list.html",rows = rows, blog = blog)
+   # c.execute("select * from bloginfo")
+   # blog = c.fetchall()
+   # createblog(1, "test")
+   return render_template("list.html",rows = rows) #,blog = blog
 
 def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
@@ -150,7 +139,6 @@ def search(keyword):
         blogs = c.fetchall()
         print(blogs)
         entries = list()
-
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
