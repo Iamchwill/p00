@@ -83,6 +83,7 @@ def createblog():
          
     return render_template('response.html', user = username, blog = blog)
 
+<<<<<<< HEAD
 def validate(name, value):
     error_message = ""
     if name == "userID":
@@ -99,6 +100,8 @@ def validate(name, value):
     
     return error_message
 
+=======
+>>>>>>> c91acf9d9847c21871323af802cd02f2c69d1dcf
 def check_existence(value):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
