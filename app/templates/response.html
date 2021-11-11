@@ -18,10 +18,27 @@ Oct 20, 2021
       OrangeLemon
       Shriya, Zhaoyu, Edwin, William
     </h1>
-    <h2>BlueGreen (Edwin Zheng, Shriya Anand, Zhaoyu Lin)</h2> <!-- Roster name -->
+    <h2>Welcome {{user}}, how are you?</h2> <!-- This greets the user based off their username-->
     <br>
-    <p>Status : LOGGED IN SUCCESSFULLY</p>
-    <P>Hello {{user}}, how are you?</P> <!-- This greets the user based off their username-->
+    <h3> Your Blogs </h3>
+    <table border = 1>
+      <thead>
+        <td>Title</td>
+      </thead>
+
+      {% for row in blog %}
+         <tr>
+            <td>{{row["BlogTitle"]}}</td>
+         </tr>
+      {% endfor %}
+   </table>
+    <form action="/createblog">
+      <p>
+        &emsp; Blog Title: <input type="text" name="blogtitle">
+      </p>
+        &emsp; <input type="submit" name="createblog" value = "Create New Blog">
+    </form>
+    <br>
 
     <form action="/logout" method="post">
 			<input type="submit" name="logout" value = "Logout"> <!-- This adds a button to logout for logged-in users-->

@@ -31,6 +31,7 @@ def authenticate():
     #if(password doesn't match username)
         #response += "incorrect username or password"
     if(response == "TRY AGAIN: "):
+        session['userID'] = request.args['username']
         return render_template('response.html', user = request.args['username'])
     else:
         return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
@@ -57,6 +58,32 @@ def reg2():
 
     return render_template('register.html', error = error)
     # return render_template('response.html', user = session.get("userID"))
+
+@app.route("/createblog", methods=['GET', 'POST'])
+def createblog():
+    blogtitle = request.args['blogtitle']
+    username = session['userID']
+    print(username)
+
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("select BlogID from userinfo group by username having username = " + str(username))
+        blogID = c.fetchone()
+        for row in blogID:
+            ID = row
+        print(ID)
+        c.execute("INSERT INTO bloginfo (BlogTitle, BlogID) VALUES (?,?)",(str(blogtitle), ID) )
+        db.commit()
+        print("blog added")
+
+        c = db.cursor()
+        c.row_factory = sqlite3.Row
+        ID = str(ID)
+        c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
+        blog = c.fetchall()
+        c.close()
+         
+    return render_template('response.html', user = username, blog = blog)
 
 def check_existence(value):
     with sqlite3.connect(DB_FILE) as db:
@@ -104,10 +131,9 @@ def list():
 
    rows = cur.fetchall()
    c = con.cursor()
-   # c.execute("select * from bloginfo")
-   # blog = c.fetchall()
-   # createblog(1, "test")
-   return render_template("list.html",rows = rows) #,blog = blog
+   c.execute("select * from bloginfo")
+   blog = c.fetchall()
+   return render_template("list.html",rows = rows, blog = blog)
 
 def insert(table_name, username, password):#insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
@@ -116,18 +142,6 @@ def insert(table_name, username, password):#insert user and password into table
             c.execute("INSERT INTO " + table_name + "(username,password) VALUES (?,?)",(username,password) )
             db.commit()
             msg = "Record successfully added"
-
-def createblog(username, blogtitle):
-    with sqlite3.connect(DB_FILE) as db:
-        con = sqlite3.connect(DB_FILE)
-        c = con.cursor()
-        c.execute("select BlogID from userinfo group by username having username = " + str(username))
-        blogID = c.fetchone()
-        for row in blogID:
-            ID = row
-        c.execute("INSERT INTO bloginfo VALUES (NULL, ?,?)",(str(blogtitle), ID) )
-        db.commit()
-        msg = "Blog Created"
 
 def search(keyword):
     with sqlite3.connect(DB_FILE) as db:
