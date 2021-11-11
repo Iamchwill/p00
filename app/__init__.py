@@ -25,7 +25,7 @@ def authenticate():
     password = "12345"
     response = "TRY AGAIN: "
 
-    if(not check_existence(request.args['username'])): #checks for password
+    if(check_existence(request.args['username']) == False): #checks for password
         response += "incorrect username or password"
     #check for password matches uername
     #if(password doesn't match username)
@@ -43,8 +43,6 @@ def reg1():
 @app.route("/reg2", methods=['GET', 'POST'])
 def reg2():
     error = "ERROR: "
-    if (request.args['regUser'] == "Traveler"):
-        error += "Pre-existing username. Please choose a different username"
     if (len(request.args['regUser']) == 0 or len(request.args['regPass']) == 0):
         error += "Empty field. Please fill out the fields"
     if(check_existence(request.args['regUser'])):
@@ -54,7 +52,6 @@ def reg2():
         session["userID"] = request.args['regUser']
         insert("userinfo", request.args['regUser'], request.args['regPass'])
 
-        print("************************" + session["userID"])
         return render_template('response.html',user = request.args['regUser'])
             # ADD USERID TO THE DB HERE
 
@@ -73,7 +70,7 @@ def check_existence(value):
 
 @app.route("/logout", methods=['POST']) #Logout method
 def logout():
-    if len(session.get("userID")) > 0: #If username does exist, remove it from session and return the login page
+    if len(session) > 0 and len(session.get("userID")) > 0: #If username does exist, remove it from session and return the login page
         session.pop("userID")
     return render_template('login.html', login_html = "")
 
