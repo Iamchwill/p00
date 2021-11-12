@@ -79,7 +79,7 @@ def reg2():
 
 @app.route("/createblog", methods=['GET', 'POST'])
 def createblog():
-    error = ""
+    error = "ERROR: "
     blogtitle = request.args['blogtitle']
     username = session['userID']
     print(username)
@@ -99,7 +99,7 @@ def createblog():
         c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
         blog = c.fetchall()
         error += validate("blogtitle", request.args['blogtitle'])
-        if(error == ""):
+        if(error == "ERROR: "):
             c.execute("INSERT INTO bloginfo (BlogTitle, BlogID) VALUES (?,?)",(str(blogtitle), ID) )
             print("blog added")
             c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
