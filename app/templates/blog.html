@@ -14,6 +14,23 @@ Nov 12, 2021
     <link rel = "icon" href = "/static/favicon.ico" type = "image/x-icon"/>
   </head>
 
+  <table border = 1>
+    <thead>
+      <td>Your Entries</td>
+    </thead>
+
+    {% for row in blog %}
+       <tr>
+         <td>
+       <tr>
+          <td>
+            <form action="/whereto" methods = ['GET', 'POST']>
+            <input type="submit" name="whereto" value = "{{row["EntryTitle"]}}">
+            </form>
+          </td>
+       </tr>
+    {% endfor %}
+
   <body>
     <h1>
       {{BlogTitle}}

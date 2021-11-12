@@ -153,7 +153,7 @@ def addrec():
 
     c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
     c.execute("CREATE TABLE IF NOT EXISTS bloginfo (EntryID INTEGER PRIMARY KEY, BlogTitle TEXT, BlogID INTEGER, CONSTRAINT fk_userinfo FOREIGN KEY(BlogID) REFERENCES userinfo(BlogID))")
-    c.execute("CREATE TABLE IF NOT EXISTS entryinfo (EntryNum TEXT, EntryTitle TEXT, Entry TEXT, EntryID INTEGER, CONSTRAINT fk_bloginfo FOREIGN KEY(EntryID) REFERENCES bloginfo(EntryID))")
+    c.execute("CREATE TABLE IF NOT EXISTS entryinfo (BlogTitle TEXT, EntryNum TEXT, EntryTitle TEXT, Entry TEXT, EntryID INTEGER, CONSTRAINT fk_bloginfo FOREIGN KEY(EntryID) REFERENCES bloginfo(EntryID))")
 
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
@@ -179,7 +179,12 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
-def insert(table_name, username, password):#insert user and password into table
+@app.route('/entries', methods = ['GET', 'POST'])
+def display(entries):
+    data = show_entries("asdf")
+    return render_template("blog.html", blog = data[1])
+
+def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
             c = db.cursor()
@@ -198,7 +203,7 @@ def search(keyword):
 def show_entries(blog):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute('SELECT EntryID, EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "'+ blog + '";')
+        c.execute('SELECT EntryID, EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '";')
         entries = c.fetchall()
         return entries
 
