@@ -115,21 +115,16 @@ def createentries():
     if request.method == 'POST':
         blogtitle = request.form['createentry']
         with sqlite3.connect(DB_FILE) as db:
-            entrynum = 0
-            entrytitle = request.args['entrytitle']
-            entry = request.args['entry']
+            entrytitle = request.args.get('entrytitle')
+            entry = request.args.get('entry')   
             c = db.cursor()
-            c.execute("select EntryNum from entryinfo WHERE BlogTitle = '" + blogtitle + "' ORDER BY EntryNum DESC;'")
-            num = c.fetchone()
-            for row in num:
-                entrynum += row
-            entrynum += 1
-            c.execute("INSERT INTO entryinfo (BlogTitle, EntryNum, EntryTitle, Entry) VALUES (?,?,?,?)", (str(blogtitle),entrynum,str(entrytitle),str(entry)))
+            c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
             db.commit()
             print("entry added")
 
             c = db.cursor()
-            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ORDER BY EntryNum DESC;')
+            c.row_factory = sqlite3.Row
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
             entries = c.fetchall()
         return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
     else :
@@ -143,7 +138,7 @@ def whereto():
         blogtitle = request.form['whereto']
         with sqlite3.connect(DB_FILE) as db:
             c = db.cursor()
-            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ORDER BY EntryNum DESC;')
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
             entries = c.fetchall()
         return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
     else :
@@ -181,6 +176,7 @@ def validate(name, value):
             error_message += " Entry must only have between 1 and 50 characters"
     return error_message
 
+
 def check_existence(c_name, value):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
@@ -205,7 +201,7 @@ def addrec():
 
     c.execute("CREATE TABLE IF NOT EXISTS userinfo (username TEXT, password TEXT, BlogID INTEGER PRIMARY KEY)")
     c.execute("CREATE TABLE IF NOT EXISTS bloginfo (BlogTitle TEXT, BlogID INTEGER, CONSTRAINT fk_userinfo FOREIGN KEY(BlogID) REFERENCES userinfo(BlogID))")
-    c.execute("CREATE TABLE IF NOT EXISTS entryinfo (BlogTitle TEXT, EntryNum TEXT, EntryTitle TEXT, Entry TEXT)")
+    c.execute("CREATE TABLE IF NOT EXISTS entryinfo (BlogTitle TEXT, EntryTitle TEXT, Entry TEXT)")
 
     print("***create table works***") #this creates a new table
     if request.method == 'POST':
@@ -231,6 +227,7 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
+<<<<<<< HEAD
 @app.route('/view', methods = ['GET', 'POST'])
 def view():
     with sqlite3.connect(DB_FILE) as db:
@@ -243,6 +240,8 @@ def view():
         else:
             return render_template("search.html", user = session["userID"], blog = blog)
 
+=======
+>>>>>>> 808f92b4bd4d78018da8e12c913df7adcf80bfa9
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
@@ -262,7 +261,7 @@ def search(keyword):
 def show_entries(blog):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '" ORDER BY EntryNum;')
+        c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '";')
         entries = c.fetchall()
         return render_template("blog.html", BlogTitle = blog, entries = entries)
 
