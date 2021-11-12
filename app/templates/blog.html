@@ -27,14 +27,15 @@ Nov 12, 2021
       </thead>
   
       {% for row in entries %}
+        <form action="/edit" method = 'POST'>
          <tr>
             <td>{{row["EntryTitle"]}}</td>
             <td>{{row["Entry"]}}</td>
             <td>            
-              <form action="/edit" methods = ['GET', 'POST']>
-              <input type="submit" name="edit" value = "{{row["EntryTitle"]}}">
-              </form></td>
+              <button type="submit" name="edit" value = "{{row["EntryTitle"]}}">Edit</button>
+            </td>
          </tr>
+        </form>
       {% endfor %}
     </table>
 

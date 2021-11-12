@@ -225,6 +225,20 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
+@app.route('/edit', methods = ['GET', 'POST'])
+def edit():
+    if request.method == 'POST':
+        entrytitle = request.form['edit']
+        with sqlite3.connect(DB_FILE) as db:
+            c = db.cursor()
+            c.execute("select Entry FROM entryinfo WHERE EntryTitle = '" + entrytitle + "' ;")
+            text = c.fetchall()
+            for row in text:
+                entry = row[0]
+        return render_template('editpage.html', entry = entry)
+    else:
+        return "ERROR3"
+
 @app.route('/view', methods = ['GET', 'POST'])
 def view():
     with sqlite3.connect(DB_FILE) as db:
