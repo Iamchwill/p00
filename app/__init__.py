@@ -107,7 +107,7 @@ def whereto():
         blogtitle = request.form['whereto']
         print(blogtitle)
         return blogtitle
-    elif request.method == 'GET':
+    else :
         return render_template('register.html')
 
 
