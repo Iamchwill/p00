@@ -113,21 +113,31 @@ def createblog():
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
     error = "ERROR: "
+    error += validate("entrytitle", request.args.get('entrytitle'))
+    error += validate("entry", request.args.get('entry'))
+
     entrytitle = request.args.get('entrytitle')
     entry = request.args.get('entry') 
     blogtitle = session['blogtitle']
     with sqlite3.connect(DB_FILE) as db:
-  
-        c = db.cursor()
-        c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
-        db.commit()
-        print("entry added")
+        if(error == "ERROR: "):
+            c = db.cursor()
+            c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
+            db.commit()
+            print("entry added")
 
-        c = db.cursor()
-        c.row_factory = sqlite3.Row
-        c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
-        entries = c.fetchall()
-    return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
+            c = db.cursor()
+            c.row_factory = sqlite3.Row
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
+            entries = c.fetchall()
+            return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
+        else:
+            print("error message" + error)
+            c = db.cursor()
+            c.row_factory = sqlite3.Row
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
+            entries = c.fetchall()
+            return render_template("blog.html", BlogTitle = blogtitle, entries = entries, login_fail = error)
 
 @app.route("/whereto", methods=['GET', 'POST'])
 def whereto():
@@ -148,32 +158,35 @@ def validate(name, value):
     error_message = ""
     if name == "userID":
         if value == "" or value == " " or value == None:
-            error_message += " Username cannot be blank"
+            error_message += " | Username cannot be blank"
         if check_existence("username", value):
-            error_message += " Username already exists"
+            error_message += " | Username already exists"
         if len(value) > 50:
-            error_message += " Username cannot exceed 50 characters"
+            error_message += " | Username cannot exceed 50 characters"
     if name == "password":
         if len(value) < 1 or len(value) > 50:
-            error_message += " Password must only have between 1 and 50 characters"
+            error_message += " | Password must only have between 1 and 50 characters"
         if(value != request.args['cpass']):
-            error_message += " Passwords must match"
+            error_message += " | Passwords must match"
     if name == "blogtitle":
         if value == "" or value == " " or value == None:
-            error_message += " Blog Title cannot be blank"
+            error_message += " | Blog Title cannot be blank"
         if len(value) < 1 or len(value) > 50:
-            error_message += " Blog Title must only have between 1 and 50 characters"
+            error_message += " | Blog Title must only have between 1 and 50 characters"
     if name == "entrytitle":
         if value == "" or value == " " or value == None:
-            error_message += " Entry Title cannot be blank"
+            error_message += " | Entry Title cannot be blank"
         if len(value) < 1 or len(value) > 50:
-            error_message += " Entry Title must only have between 1 and 50 characters"
+            error_message += " | Entry Title must only have between 1 and 50 characters"
     if name == "entry":
         if value == "" or value == " " or value == None:
-            error_message += " Entry cannot be blank"
-        if len(value) < 1 or len(value) > 50:
-            error_message += " Entry must only have between 1 and 50 characters"
-    return error_message
+            error_message += " | Entry cannot be blank"
+        if len(value) < 1 or len(value) > 500:
+            error_message += " | Entry must only have between 1 and 500 characters"
+    if error_message == "":
+        return "";
+    else: 
+        return error_message + " |"
 
 
 def check_existence(c_name, value):
