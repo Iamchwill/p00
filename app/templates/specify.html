@@ -8,8 +8,11 @@
   <body>
     <h1> {{BlogTitle}} </h1>
     {% for row in entries%}
-      <h1>{{row["EntryTitle"]}}</h2>
+      <h2>{{row["EntryTitle"]}}</h2>
       <p>{{row["Entry"]}}</p>
     {% endfor %}
   </body>
+
+  <a href = "/"><button>Go back to home page</button></a>
+  
 </html>
