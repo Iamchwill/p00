@@ -179,11 +179,6 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
-@app.route('/entries', methods = ['GET', 'POST'])
-def display(entries):
-    data = show_entries("asdf")
-    return render_template("blog.html", blog = data[1])
-
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
@@ -203,8 +198,9 @@ def search(keyword):
 def show_entries(blog):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute('SELECT EntryID, EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '";')
+        c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '";')
         entries = c.fetchall()
+        print(entries)
         return entries
 
 if __name__ == "__main__": #false if this file imported as module
