@@ -159,7 +159,6 @@ def validate(name, value):
             error_message += " Username already exists"
         if len(value) > 50:
             error_message += " Username cannot exceed 50 characters"
-
     if name == "password":
         if len(value) < 1 or len(value) > 50:
             error_message += " Password must only have between 1 and 50 characters"
@@ -170,6 +169,16 @@ def validate(name, value):
             error_message += " Blog Title cannot be blank"
         if len(value) < 1 or len(value) > 50:
             error_message += " Blog Title must only have between 1 and 50 characters"
+    if name == "entrytitle":
+        if value == "" or value == " " or value == None:
+            error_message += " Entry Title cannot be blank"
+        if len(value) < 1 or len(value) > 50:
+            error_message += " Entry Title must only have between 1 and 50 characters"
+    if name == "entry":
+        if value == "" or value == " " or value == None:
+            error_message += " Entry cannot be blank"
+        if len(value) < 1 or len(value) > 50:
+            error_message += " Entry must only have between 1 and 50 characters"
     return error_message
 
 def check_existence(c_name, value):
@@ -221,6 +230,13 @@ def list():
    c.execute("select * from bloginfo")
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
+
+app.route('/view')
+def view():
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("SELECT BlogTitle FROM bloginfo")
+        return render_template("search.html",rows = rows, blog = blog)
 
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
