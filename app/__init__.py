@@ -17,6 +17,17 @@ def disp_loginpage():
         addrec()
         return render_template( 'login.html', login_fail = "" ) #return login page if correct user name is not stored in session
     else:
+        with sqlite3.connect(DB_FILE) as db:
+            c = db.cursor()
+            c.execute("select BlogID from userinfo WHERE username LIKE '%" + str(session['userID']) + "%';")
+            blogID = c.fetchone()
+            for row in blogID:
+                ID = row
+            c.row_factory = sqlite3.Row
+            ID = str(ID)
+            c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
+            blog = c.fetchall()
+            c.close()
         return render_template('response.html', user = session.get("userID")) #return response page if correct user name is stored in session
 
 @app.route("/auth", methods=['GET', 'POST'])
@@ -32,7 +43,7 @@ def authenticate():
         session['userID'] = request.args['username']
         with sqlite3.connect(DB_FILE) as db:
             c = db.cursor()
-            c.execute("select BlogID from userinfo group by username having username = " + str(request.args['username']))
+            c.execute("select BlogID from userinfo WHERE username LIKE '%" + str(session['userID']) + "%';")
             blogID = c.fetchone()
             for row in blogID:
                 ID = row
@@ -74,7 +85,7 @@ def createblog():
 
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute("select BlogID from userinfo group by username having username = " + str(username))
+        c.execute("select BlogID from userinfo WHERE username LIKE '%" + str(username) + "%';")
         blogID = c.fetchone()
         for row in blogID:
             ID = row
@@ -88,9 +99,13 @@ def createblog():
         ID = str(ID)
         c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
         blog = c.fetchall()
-        c.close()
-         
+        c.close()      
     return render_template('response.html', user = username, blog = blog)
+
+@app.route("/whereto", methods=['GET', 'POST'])
+def whereto():
+    blogtitle = request.form['whereto']
+    print(blogtitle)
 
 def validate(name, value):
     error_message = ""
