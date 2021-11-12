@@ -3,7 +3,7 @@ William Chen - Project Manager (Search)
 <br>
 Shriya Anand - Devo (Login - Front End)
 <br>
-Edwin Zheng - Devo (Blog Entries>
+Edwin Zheng - Devo (Blog Entries)
 <br>
 Zhao Yu Lin - Devo (Login - Back End)
 <br>
