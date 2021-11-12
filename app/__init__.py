@@ -109,7 +109,7 @@ def whereto():
         print(blogtitle)
         return blogtitle
     else :
-        return render_template('register.html')
+        return "ERROR"
 
 
 def validate(name, value):
