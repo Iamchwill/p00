@@ -1,0 +1,13 @@
+<html>
+
+  <head>
+    <title> {{BlogTitle}} </title>
+    <link rel = "icon" href = "/static/favicon.ico" type = "image/x-icon"/>
+  </head>
+
+  <body>
+    <h1> {{BlogTitle}} </h1>
+    {% for row in entries%}
+      <h1>{{row["EntryTitle"]}}</h2>
+      <p>{{row["Entry"]}}</p>
+  </body>
