@@ -53,10 +53,8 @@ def reg1():
 @app.route("/reg2", methods=['GET', 'POST'])
 def reg2():
     error = "ERROR: "
-    if (len(request.args['regUser']) == 0 or len(request.args['regPass']) == 0):
-        error += "Empty field. Please fill out the fields"
-    if(check_existence(request.args['regUser'])):
-        error += "Username already exists"
+    error += validate("userID", request.args['regUser'])
+    error += validate("password", request.args['regPass'])
     if (error == "ERROR: "):
         #if userID is valid, store in database
         session["userID"] = request.args['regUser']
@@ -93,6 +91,23 @@ def createblog():
         c.close()
          
     return render_template('response.html', user = username, blog = blog)
+
+def validate(name, value):
+    error_message = ""
+    if name == "userID":
+        if value == "" or value == " ":
+            error_message += " Username cannot be blank"
+        if check_existence(value):
+            error_message += " Username already exists"
+        if len(value) > 50:
+            error_message += " Username cannot exceed 50 characters"
+
+    if name == "password":
+        if len(value) < 1 or len(value) > 50:
+            error_message += " Password must only have between 1 and 50 characters"
+        if(value != request.args['cpass']):
+            error_message += " Passwords must match"
+    return error_message
 
 def check_existence(value):
     with sqlite3.connect(DB_FILE) as db:
