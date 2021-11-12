@@ -164,8 +164,8 @@ def validate(name, value):
         if len(value) > 50:
             error_message += " | Username cannot exceed 50 characters"
     if name == "password":
-        if len(value) < 1 or len(value) > 50:
-            error_message += " | Password must only have between 1 and 50 characters"
+        if len(value) < 8 or len(value) > 50:
+            error_message += " | Password must only have between 8 and 50 characters"
         if(value != request.args['cpass']):
             error_message += " | Passwords must match"
     if name == "blogtitle":

@@ -4,9 +4,10 @@
 
     <form action="/editentry" method=['GET', 'POST']>
         <p>
-          &emsp; Entry: <input type="text" name="entry" value="{{entry}}">
+          
+          &emsp; Entry: <textarea type="text" name="entry" rows="10" cols="70" >{{entry}}</textarea>
         </p>
-          &emsp; <button type="submit" name="createentry" value = "{{BlogTitle}}">Save Edit</button>
+          &emsp; <button type="submit" name="saveedit" value = "{{entrytitle}}">Save Edit</button>
   
       </form>
 
