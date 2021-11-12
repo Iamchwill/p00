@@ -22,31 +22,31 @@ ZhaoL -- 2020-11-01 08:20
 Reformated repo structure
 Started work on requirements.txt
 
-ShriyaA -- 2021-11-1 8:39
+ShriyaA -- 2021-11-01 8:39
 Worked on the log-in page.
 - Added a register here button
 - Fixed formatting for login button
 
-ShriyaA -- 2021-11-3 8:34
+ShriyaA -- 2021-11-03 8:34
 Worked on the register
 - added the register html
 - worked with zhao to figure out the create table for usernames/passwd
 
-ShriyaA -- 2021-11-4 8:41
+ShriyaA -- 2021-11-04 8:41
 - worked on the arguments of the register.html
 
-ZhaoL -- 2021-11-4 8:41
+ZhaoL -- 2021-11-04 8:41
 - login database
 
-ZhaoL -- 2021-11-5 8:41
+ZhaoL -- 2021-11-05 8:41
 - created a working login database that stores userinfo with shriya
 
-ShriyaA -- 2021-11-5 8:40
+ShriyaA -- 2021-11-05 8:40
 - worked with zhao to create a working login database and started working on the insert into methods.
 
-
 ZhaoL/ShriyaA -- 2021-11-8 8:40
--worked with Shriya on login
+- worked with Shriya on login
+- login stores between website uses
 
 ZhaoL/ShriyaA -- 2021-11-9 8:40
 -login and other stuff will add to devlog later
