@@ -21,8 +21,6 @@ def disp_loginpage():
 
 @app.route("/auth", methods=['GET', 'POST'])
 def authenticate():
-    username = "Traveler"
-    password = "12345"
     response = "TRY AGAIN: "
 
     if(check_existence('username', request.args['username']) == False or check_existence('password', request.args['password']) == False): #checks for password
@@ -32,7 +30,18 @@ def authenticate():
         #response += "incorrect username or password"
     if(response == "TRY AGAIN: "):
         session['userID'] = request.args['username']
-        return render_template('response.html', user = request.args['username'])
+        with sqlite3.connect(DB_FILE) as db:
+            c = db.cursor()
+            c.execute("select BlogID from userinfo group by username having username = " + str(request.args['username']))
+            blogID = c.fetchone()
+            for row in blogID:
+                ID = row
+            c.row_factory = sqlite3.Row
+            ID = str(ID)
+            c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
+            blog = c.fetchall()
+            c.close()
+        return render_template('response.html', user = request.args['username'], blog = blog)
     else:
         return render_template('login.html', login_fail = response) #Else, return the response telling you what's wrong
 
