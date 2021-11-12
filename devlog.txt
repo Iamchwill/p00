@@ -27,10 +27,16 @@ Worked on the log-in page.
 - Added a register here button
 - Fixed formatting for login button
 
+EdwinZ -- 2021-11-3- 8:41
+Structureing pathing and database
+
 ShriyaA -- 2021-11-03 8:34
 Worked on the register
 - added the register html
 - worked with zhao to figure out the create table for usernames/passwd
+
+EdwinZ -- 2021-11-4- 8:41
+Worked on Blog database
 
 ShriyaA -- 2021-11-04 8:41
 - worked on the arguments of the register.html
@@ -44,9 +50,15 @@ ZhaoL -- 2021-11-05 8:41
 ShriyaA -- 2021-11-05 8:40
 - worked with zhao to create a working login database and started working on the insert into methods.
 
+EdwinZ -- 2021-11-5- 8:41
+Worked on blog display 
+
 ZhaoL/ShriyaA -- 2021-11-8 8:40
 - worked with Shriya on login
 - login stores between website uses
+
+EdwinZ -- 2021-11-8- 8:41
+Worked on Blog display (turns out, can't use java in template, will redo)
 
 ZhaoL/ShriyaA -- 2021-11-9 8:40
 -login and other stuff will add to devlog later
@@ -56,12 +68,18 @@ WilliamC -- 2021-11-9 2:15
 - Fixed small errors in devlog
 - Flag.jpg is corrupted and in wrong place
 
+EdwinZ -- 2021-11-9- 8:41
+restructed all databases
+
 WilliamC -- 2021-11-9 9:41
 - Added feature roles to readme
 
 WilliamC -- 2021-11-9 23:16
 - Added new search branch
 - Created search method for blogs
+
+EdwinZ -- 2021-11-10- 8:41
+Worked on Creating Blogs
 
 ZhaoyuL -- 2021-11-11 2:00
 -loggin checking
@@ -78,6 +96,18 @@ ShriyaA -- 2021-11-11 1:54
 - used check_existence to fix authenticate
 - fixed logout error
 
+EdwinZ -- 2021-11-11- 23:59
+- creating blog
+- displaying blogs
+- creating entries
+- displaying entreis
+- restructed databases
+- editing entries
+- templates for
+  - homepage
+  - blogpage
+  - entry edit page
+  
 ZhaoyuL -- 2021-11-12 1:00
 -done with validate
 
