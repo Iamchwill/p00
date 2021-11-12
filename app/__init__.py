@@ -25,14 +25,12 @@ def authenticate():
 
     if(check_existence('username', request.args['username']) == False or check_existence('password', request.args['password']) == False): #checks for password
         response += "incorrect username or password"
-    #check for password matches uername
-    #if(password doesn't match username)
-        #response += "incorrect username or password"
+    #checks if user exists and password matches user
     if(response == "TRY AGAIN: "):
         session['userID'] = request.args['username']
         with sqlite3.connect(DB_FILE) as db:
             c = db.cursor()
-            c.execute("select BlogID from userinfo group by username having username = " + str(request.args['username']))
+            c.execute("select BlogID from userinfo group by username having username = " + request.args['username'])
             blogID = c.fetchone()
             for row in blogID:
                 ID = row
@@ -97,7 +95,7 @@ def validate(name, value):
     if name == "userID":
         if value == "" or value == " ":
             error_message += " Username cannot be blank"
-        if check_existence(value):
+        if check_existence("username", value):
             error_message += " Username already exists"
         if len(value) > 50:
             error_message += " Username cannot exceed 50 characters"
