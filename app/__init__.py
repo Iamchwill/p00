@@ -231,12 +231,17 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
-app.route('/view')
+@app.route('/view', methods = ['GET', 'POST'])
 def view():
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
         c.execute("SELECT BlogTitle FROM bloginfo")
-        return render_template("search.html",rows = rows, blog = blog)
+        blog = c.fetchall()
+        print(blog)
+        if "userID" not in session:
+            return render_template("search.html", user = "non-user", blog = blog)
+        else:
+            return render_template("search.html", user = session["userID"], blog = blog)
 
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
