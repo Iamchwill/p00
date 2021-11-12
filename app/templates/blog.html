@@ -19,7 +19,8 @@ Nov 12, 2021
     </h1>
     <br>
 
-    <table border = 1>
+    <table border = 1 cellpadding = "1"table-layout: fixed; display: inline-table;>
+        
       <thead>
          <td>EntryTitle</td>
          <td>Entry</td>
@@ -28,11 +29,13 @@ Nov 12, 2021
   
       {% for row in entries %}
          <tr>
-            <td>{{row["EntryTitle"]}}</td>
-            <td>{{row["Entry"]}}</td>
-            <td>            
+            <td><div style="word-wrap: break-word; width: 200px"></div>{{row["EntryTitle"]}}</td>
+            <td><div style="word-wrap: break-word; width: 700px">{{row["Entry"]}}</div></td>
+
+            </td>
+            <td><div style="word-wrap: break-word; width: 50px"></div>            
               <form action="/edit" methods = ['GET', 'POST']>
-              <input type="submit" name="edit" value = "{{row["EntryTitle"]}}">
+              <input type="submit" name="edit" value = "Edit">
               </form></td>
          </tr>
       {% endfor %}
@@ -42,7 +45,10 @@ Nov 12, 2021
       <p>
         &emsp; EntryTitle: <input type="text" name="entrytitle">
         <br>
-        &emsp; Entry: <input type="text" name="entry">
+        <br>
+        ​&emsp; Entry<textarea name="entry" rows="10" cols="70"></textarea>
+
+        <!-- &emsp; Entry: <input type="text" name="entry" multiple> -->
       </p>
         &emsp; <button type="submit" name="createentry" value = "{{BlogTitle}}">Create new Entry</button>
 
