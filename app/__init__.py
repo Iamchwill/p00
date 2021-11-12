@@ -108,15 +108,15 @@ def createblog():
         else:
             print("*****" + error)
             return render_template('response.html', user = username, blog = blog, login_fail = error)
-    
+
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
     entrytitle = request.args.get('entrytitle')
-    entry = request.args.get('entry') 
+    entry = request.args.get('entry')
     blogtitle = session['blogtitle']
     with sqlite3.connect(DB_FILE) as db:
-  
+
         c = db.cursor()
         c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
         db.commit()
@@ -237,11 +237,14 @@ def view():
 @app.route('/specify', methods = ['GET','POST'])
 def view_blog():
     if request.method == 'POST':
-        blogtitle = request.form['spytool']
+        blogtitle = request.form['specify']
+        session['blogtitle'] = blogtitle
         with sqlite3.connect(DB_FILE) as db:
-            c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '";')
+            c = db.cursor()
+            c.row_factory = sqlite3.Row
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '";')
             entries = c.fetchall()
-        return render_template("spytool.html", BlogTitle = blogtitle, entries = entries)
+        return render_template("specify.html", BlogTitle = blogtitle, entries = entries)
     else :
         return "ERROR"
 
