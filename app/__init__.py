@@ -79,10 +79,11 @@ def reg2():
 
 @app.route("/createblog", methods=['GET', 'POST'])
 def createblog():
+    error = ""
     blogtitle = request.args['blogtitle']
     username = session['userID']
     print(username)
-
+    
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
         c.execute("select BlogID from userinfo WHERE username LIKE '%" + str(username) + "%';")
@@ -90,17 +91,24 @@ def createblog():
         for row in blogID:
             ID = row
         print(ID)
-        c.execute("INSERT INTO bloginfo (BlogTitle, BlogID) VALUES (?,?)",(str(blogtitle), ID) )
-        db.commit()
-        print("blog added")
+        
 
         c = db.cursor()
         c.row_factory = sqlite3.Row
         ID = str(ID)
         c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
         blog = c.fetchall()
-        c.close()
-    return render_template('response.html', user = username, blog = blog)
+        error += validate("blogtitle", request.args['blogtitle'])
+        if(error == ""):
+            c.execute("INSERT INTO bloginfo (BlogTitle, BlogID) VALUES (?,?)",(str(blogtitle), ID) )
+            print("blog added")
+            c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
+            blog = c.fetchall()
+            return render_template('response.html', user = username, blog = blog)
+        else:
+            print("*****" + error)
+            return render_template('response.html', user = username, blog = blog, login_fail = error)
+    
 
 @app.route("/whereto", methods=['GET', 'POST'])
 def whereto():
@@ -127,6 +135,11 @@ def validate(name, value):
             error_message += " Password must only have between 1 and 50 characters"
         if(value != request.args['cpass']):
             error_message += " Passwords must match"
+    if name == "blogtitle":
+        if value == "" or value == " " or value == None:
+            error_message += " Blog Title cannot be blank"
+        if len(value) < 1 or len(value) > 50:
+            error_message += " Blog Title must only have between 1 and 50 characters"
     return error_message
 
 def check_existence(c_name, value):
