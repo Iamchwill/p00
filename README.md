@@ -5,6 +5,7 @@ William Chen - Project Manager (Search)
 Shriya Anand - Devo (Login - Front End)
 <br>
 Edwin Zheng - Devo (Blog Entries>
+<br>
 Zhao Yu Lin - Devo (Login - Back End)
 SoftDev<br>
 Pd1
