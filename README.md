@@ -1,4 +1,3 @@
-# Reminder to pull first
 # CitrusBlog by OrangeLemon
 William Chen - Project Manager (Search)
 <br>
