@@ -97,7 +97,7 @@ def createblog():
         ID = str(ID)
         c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
         blog = c.fetchall()
-        c.close()      
+        c.close()
     return render_template('response.html', user = username, blog = blog)
 
 @app.route("/whereto", methods=['GET', 'POST'])
@@ -186,7 +186,14 @@ def search(keyword):
         c.execute("SELECT BlogTitle, EntryID FROM bloginfo WHERE BlogTitle LIKE '%" + keyword + "%';")
         blogs = c.fetchall()
         print(blogs)
-        entries = list()
+        return blogs
+
+def show_entries(blog):
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute('SELECT EntryID, EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "'+ blog + '";')
+        entries = c.fetchall()
+        return entries
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
