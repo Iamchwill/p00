@@ -195,6 +195,13 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
+app.route('/view')
+def view():
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute("SELECT BlogTitle FROM bloginfo")
+        return render_template("search.html",rows = rows, blog = blog)
+
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
