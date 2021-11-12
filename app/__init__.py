@@ -3,6 +3,7 @@
 # K15: Sessions Greetings
 # Oct 20, 2021
 
+import re
 from flask import Flask, render_template, request, session     #facilitate flask webservingimport
 import os
 import sqlite3
@@ -104,8 +105,13 @@ def createblog():
 
 @app.route("/whereto", methods=['GET', 'POST'])
 def whereto():
-    blogtitle = request.form['whereto']
-    print(blogtitle)
+    if request.method == 'POST':
+        blogtitle = request.form['whereto']
+        print(blogtitle)
+        return blogtitle
+    elif request.method == 'GET':
+        return render_template('register.html')
+
 
 def validate(name, value):
     error_message = ""
