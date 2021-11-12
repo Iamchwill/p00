@@ -38,13 +38,13 @@ Nov 12, 2021
       {% endfor %}
     </table>
 
-    <form action="/createentries">
+    <form action="/createentries" method='POST'>
       <p>
         &emsp; EntryTitle: <input type="text" name="entrytitle">
         <br>
         &emsp; Entry: <input type="text" name="entry">
       </p>
-        &emsp; <input type="submit" name="createentry" value = "Create New Entry">
+        &emsp; <button type="submit" name="createentry" value = "{{BlogTitle}}">Create new Entry</button>
 
     </form>
 
