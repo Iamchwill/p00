@@ -116,10 +116,10 @@ def createentries():
         blogtitle = request.form['createentry']
         with sqlite3.connect(DB_FILE) as db:
             entrynum = 0
-            entrytitle = request.args['entrytitle']
-            entry = request.args['entry']
+            entrytitle = request.args.get('entrytitle')
+            entry = request.args.get('entry')
             c = db.cursor()
-            c.execute("select EntryNum from entryinfo WHERE BlogTitle = '" + blogtitle + "' ORDER BY EntryNum DESC;'")
+            c.executescript("select EntryNum from entryinfo WHERE BlogTitle LIKE " + blogtitle + " ORDER BY EntryNum DESC;")
             num = c.fetchone()
             for row in num:
                 entrynum += row
