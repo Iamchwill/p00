@@ -182,11 +182,6 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
-@app.route('/entries', methods = ['GET', 'POST'])
-def display(entries):
-    data = show_entries("asdf")
-    return render_template("blog.html", blog = data[1])
-
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
@@ -209,6 +204,7 @@ def show_entries(blog):
         c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '" ORDER BY EntryNum;')
         entries = c.fetchall()
         return render_template("blog.html", BlogTitle = blog, entries = entries)
+
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
