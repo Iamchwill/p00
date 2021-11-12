@@ -81,3 +81,6 @@ ShriyaA -- 2021-11-11 1:54
 ZhaoyuL -- 2021-11-12 1:00
 -done with validate
 
+WilliamC -- 2021-11-12 1:29
+- Made viewing blogs
+- Maintenance 
