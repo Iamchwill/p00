@@ -35,11 +35,9 @@ def disp_loginpage():
 def authenticate():
     response = "TRY AGAIN: "
 
-    if(check_existence(request.args['username']) == False): #checks for password
+    if(check_existence('username', request.args['username']) == False or check_existence('password', request.args['password']) == False): #checks for password
         response += "incorrect username or password"
-    #check for password matches uername
-    #if(password doesn't match username)
-        #response += "incorrect username or password"
+    #checks if user exists and password matches user
     if(response == "TRY AGAIN: "):
         session['userID'] = request.args['username']
         with sqlite3.connect(DB_FILE) as db:
@@ -100,7 +98,7 @@ def createblog():
         ID = str(ID)
         c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
         blog = c.fetchall()
-        c.close()      
+        c.close()
     return render_template('response.html', user = username, blog = blog)
 
 @app.route("/whereto", methods=['GET', 'POST'])
@@ -118,7 +116,7 @@ def validate(name, value):
     if name == "userID":
         if value == "" or value == " ":
             error_message += " Username cannot be blank"
-        if check_existence(value):
+        if check_existence("username", value):
             error_message += " Username already exists"
         if len(value) > 50:
             error_message += " Username cannot exceed 50 characters"
@@ -130,10 +128,10 @@ def validate(name, value):
             error_message += " Passwords must match"
     return error_message
 
-def check_existence(value):
+def check_existence(c_name, value):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute("SELECT username FROM userinfo WHERE username LIKE '%" + value + "%';")
+        c.execute("SELECT " + c_name + " FROM userinfo WHERE " +c_name + " LIKE '%" + value + "%';")
         listUsers = c.fetchall()
         print(listUsers)
         if (len(listUsers) == 0):
@@ -194,7 +192,14 @@ def search(keyword):
         c.execute("SELECT BlogTitle, EntryID FROM bloginfo WHERE BlogTitle LIKE '%" + keyword + "%';")
         blogs = c.fetchall()
         print(blogs)
-        entries = list()
+        return blogs
+
+def show_entries(blog):
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor()
+        c.execute('SELECT EntryID, EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "'+ blog + '";')
+        entries = c.fetchall()
+        return entries
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
