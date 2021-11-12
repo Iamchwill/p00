@@ -20,24 +20,25 @@ Nov 12, 2021
     <br>
 
     <table border = 1 cellpadding = "1"table-layout: fixed; display: inline-table;>
-        
+
       <thead>
          <td>EntryTitle</td>
          <td>Entry</td>
          <td>Edit</td>
       </thead>
-  
+
       {% for row in entries %}
+        <form action="/edit" method = 'POST'>
          <tr>
+
             <td><div style="word-wrap: break-word; width: 200px"></div>{{row["EntryTitle"]}}</td>
             <td><div style="word-wrap: break-word; width: 700px">{{row["Entry"]}}</div></td>
-
+            <td><div style="word-wrap: break-word; width: 50px"></div>
+                <button type="submit" name="edit" value = "{{row["EntryTitle"]}}">Edit</button>
             </td>
-            <td><div style="word-wrap: break-word; width: 50px"></div>            
-              <form action="/edit" methods = ['GET', 'POST']>
-              <input type="submit" name="edit" value = "Edit">
-              </form></td>
+
          </tr>
+        </form>
       {% endfor %}
     </table>
 
@@ -53,8 +54,15 @@ Nov 12, 2021
         &emsp; <button type="submit" name="createentry" value = "{{BlogTitle}}">Create new Entry</button>
 
     </form>
+<<<<<<< HEAD
     <br>
     {{login_fail}}
+=======
+>>>>>>> 90a6f497c3c553e59da7d60c9e50e3ec607b7517
   </body>
+
+  <br>
+
+  <a href = "/"><button>Go back to home page</button></a>
 
 </html>

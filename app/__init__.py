@@ -108,7 +108,7 @@ def createblog():
         else:
             print("*****" + error)
             return render_template('response.html', user = username, blog = blog, login_fail = error)
-    
+
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
@@ -117,7 +117,7 @@ def createentries():
     error += validate("entry", request.args.get('entry'))
 
     entrytitle = request.args.get('entrytitle')
-    entry = request.args.get('entry') 
+    entry = request.args.get('entry')
     blogtitle = session['blogtitle']
     with sqlite3.connect(DB_FILE) as db:
         if(error == "ERROR: "):
@@ -239,6 +239,20 @@ def list():
    blog = c.fetchall()
    return render_template("list.html",rows = rows, blog = blog)
 
+@app.route('/edit', methods = ['GET', 'POST'])
+def edit():
+    if request.method == 'POST':
+        entrytitle = request.form['edit']
+        with sqlite3.connect(DB_FILE) as db:
+            c = db.cursor()
+            c.execute("select Entry FROM entryinfo WHERE EntryTitle = '" + entrytitle + "' ;")
+            text = c.fetchall()
+            for row in text:
+                entry = row[0]
+        return render_template('editpage.html', entry = entry)
+    else:
+        return "ERROR3"
+
 @app.route('/view', methods = ['GET', 'POST'])
 def view():
     with sqlite3.connect(DB_FILE) as db:
@@ -251,11 +265,14 @@ def view():
 @app.route('/specify', methods = ['GET','POST'])
 def view_blog():
     if request.method == 'POST':
-        blogtitle = request.form['spytool']
+        blogtitle = request.form['specify']
+        session['blogtitle'] = blogtitle
         with sqlite3.connect(DB_FILE) as db:
-            c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '";')
+            c = db.cursor()
+            c.row_factory = sqlite3.Row
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '";')
             entries = c.fetchall()
-        return render_template("spytool.html", BlogTitle = blogtitle, entries = entries)
+        return render_template("specify.html", BlogTitle = blogtitle, entries = entries)
     else :
         return "ERROR"
 

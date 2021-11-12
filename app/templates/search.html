@@ -24,12 +24,13 @@ Nov 12, 2021
     </thead>
 
     {% for row in blog %}
-          <td>
-            <form action="/specify" methods = ['GET', 'POST']>
-              <input type="submit" name="specify" value = "{{row[0]}}"/>
-            </form>
-          </td>
-       </tr>
+    <form action = "/specify" method='POST'>
+      <tr>
+       <td>
+         <input type="submit" name="specify" value = "{{row[0]}}"}/>
+       </td>
+    </tr>
+    </form>
     {% endfor %}
   </table>
   <br>
