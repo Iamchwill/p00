@@ -8,8 +8,8 @@
   <body>
     <h1> {{BlogTitle}} </h1>
     {% for row in entries%}
-      <h2>{{row["EntryTitle"]}}</h2>
-      <p>{{row["Entry"]}}</p>
+      <h2><div style="word-wrap: break-word; width: 700px"></div>{{row["EntryTitle"]}}</h2>
+      <p><div style="word-wrap: break-word; width: 800px">{{row["Entry"]}}</p>
     {% endfor %}
   </body>
 
