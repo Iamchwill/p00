@@ -63,10 +63,21 @@ WilliamC -- 2021-11-9 23:16
 - Added new search branch
 - Created search method for blogs
 
+ZhaoyuL -- 2021-11-11 2:00
+-loggin checking
+
 ShriyaA -- 2021-11-10
 - used the search method to create the check_existence method
 - used check_existence method to work on register
 
+ZhaoyuL -- 2021-11-11 7:00
+-cleaned some code
+-started checking for validate
+
 ShriyaA -- 2021-11-11 1:54
 - used check_existence to fix authenticate
 - fixed logout error
+
+ZhaoyuL -- 2021-11-12 1:00
+-done with validate
+
