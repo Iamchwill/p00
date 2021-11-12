@@ -14,32 +14,38 @@ Nov 12, 2021
     <link rel = "icon" href = "/static/favicon.ico" type = "image/x-icon"/>
   </head>
 
-  <table border = 1>
-    <thead>
-      <td>Your Entries</td>
-    </thead>
-
-    {% for row in blog %}
-       <tr>
-         <td>
-       <tr>
-          <td>
-            <form action="/whereto" methods = ['GET', 'POST']>
-            <input type="submit" name="whereto" value = "{{row["EntryTitle"]}}">
-            </form>
-          </td>
-       </tr>
-    {% endfor %}
-
   <body>
     <h1>
-      {{BlogTitle}}
     </h1>
-    <br>f
-    <P>Hello {{user}}, how are you?</P> <!-- This greets the user based off their username-->
+    <br>
 
-    <form action="/logout" method="post">
-			<input type="submit" name="logout" value = "Logout"> <!-- This adds a button to logout for logged-in users-->
+    <table border = 1>
+      <thead>
+         <td>EntryTitle</td>
+         <td>Entry</td>
+         <td>Edit</td>
+      </thead>
+  
+      {% for row in entries %}
+         <tr>
+            <td>{{row["EntryTitle"]}}</td>
+            <td>{{row["Entry"]}}</td>
+            <td>            
+              <form action="/edit" methods = ['GET', 'POST']>
+              <input type="submit" name="edit" value = "{{row["EntryTitle"]}}">
+              </form></td>
+         </tr>
+      {% endfor %}
+    </table>
+
+    <form action="/createentries">
+      <p>
+        &emsp; EntryTitle: <input type="text" name="entrytitle">
+        <br>
+        &emsp; Entry: <input type="text" name="entry">
+      </p>
+        &emsp; <input type="submit" name="createentry" value = "Create New Entry">
+
     </form>
 
   </body>

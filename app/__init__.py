@@ -114,8 +114,11 @@ def createblog():
 def whereto():
     if request.method == 'POST':
         blogtitle = request.form['whereto']
-        print(blogtitle)
-        return blogtitle
+        with sqlite3.connect(DB_FILE) as db:
+            c = db.cursor()
+            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ORDER BY EntryNum;')
+            entries = c.fetchall()
+        return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
     else :
         return "ERROR"
 
@@ -211,10 +214,10 @@ def search(keyword):
 def show_entries(blog):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '";')
+        c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blog + '" ORDER BY EntryNum;')
         entries = c.fetchall()
-        print(entries)
-        return entries
+        return render_template("blog.html", BlogTitle = blog, entries = entries)
+
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
