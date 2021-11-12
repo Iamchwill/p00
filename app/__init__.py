@@ -33,7 +33,8 @@ def disp_loginpage():
 @app.route("/auth", methods=['GET', 'POST'])
 def authenticate():
     response = "TRY AGAIN: "
-    response += validate("userID", request.args['username'])
+    if request.args['password'] == "" or request.args['password'] == " " or request.args['password'] == None:
+            response += " Username or password cannot be blank"
     if(check_existence('username', request.args['username']) == False or check_existence('password', request.args['password']) == False): #checks for password
         response += "incorrect username or password"
     #checks if user exists and password matches user
