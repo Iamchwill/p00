@@ -29,7 +29,7 @@ def disp_loginpage():
             c.execute("select BlogTitle from bloginfo WHERE BlogID LIKE '%" + ID + "%';")
             blog = c.fetchall()
             c.close()
-        return render_template('response.html', user = session.get("userID")) #return response page if correct user name is stored in session
+        return render_template('response.html', user = session.get("userID"),blog = blog) #return response page if correct user name is stored in session
 
 @app.route("/auth", methods=['GET', 'POST'])
 def authenticate():
@@ -112,32 +112,30 @@ def createblog():
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
-    if request.method == 'POST':
-        blogtitle = request.form['createentry']
-        with sqlite3.connect(DB_FILE) as db:
-            entrytitle = request.args.get('entrytitle')
-            entry = request.args.get('entry')
-            c = db.cursor()
-            c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
-            db.commit()
-            print("entry added")
+    entrytitle = request.args.get('entrytitle')
+    entry = request.args.get('entry') 
+    blogtitle = session['blogtitle']
+    with sqlite3.connect(DB_FILE) as db:
+  
+        c = db.cursor()
+        c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
+        db.commit()
+        print("entry added")
 
-            c = db.cursor()
-            c.row_factory = sqlite3.Row
-            c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
-            entries = c.fetchall()
-        return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
-    else :
-        return "ERROR"
-
-
+        c = db.cursor()
+        c.row_factory = sqlite3.Row
+        c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
+        entries = c.fetchall()
+    return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
 
 @app.route("/whereto", methods=['GET', 'POST'])
 def whereto():
     if request.method == 'POST':
         blogtitle = request.form['whereto']
+        session['blogtitle'] = blogtitle
         with sqlite3.connect(DB_FILE) as db:
             c = db.cursor()
+            c.row_factory = sqlite3.Row
             c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
             entries = c.fetchall()
         return render_template("blog.html", BlogTitle = blogtitle, entries = entries)
