@@ -112,6 +112,7 @@ def createblog():
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
+    error = "ERROR: "
     entrytitle = request.args.get('entrytitle')
     entry = request.args.get('entry') 
     blogtitle = session['blogtitle']
