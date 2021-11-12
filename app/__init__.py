@@ -116,7 +116,7 @@ def createentries():
         blogtitle = request.form['createentry']
         with sqlite3.connect(DB_FILE) as db:
             entrytitle = request.args.get('entrytitle')
-            entry = request.args.get('entry')   
+            entry = request.args.get('entry')
             c = db.cursor()
             c.execute("INSERT INTO entryinfo (BlogTitle, EntryTitle, Entry) VALUES (?,?,?)", (str(blogtitle),str(entrytitle),str(entry)))
             db.commit()
@@ -235,13 +235,8 @@ def view():
         c.execute("SELECT BlogTitle FROM bloginfo")
         blog = c.fetchall()
         print(blog)
-        if "userID" not in session:
-            return render_template("search.html", user = "non-user", blog = blog)
-        else:
-            return render_template("search.html", user = session["userID"], blog = blog)
+        return render_template("search.html", user = session["userID"], blog = blog)
 
-=======
->>>>>>> 808f92b4bd4d78018da8e12c913df7adcf80bfa9
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
             #open if file exists, otherwise create
