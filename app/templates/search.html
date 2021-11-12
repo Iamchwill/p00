@@ -25,8 +25,8 @@ Nov 12, 2021
 
     {% for row in blog %}
           <td>
-            <form action="/whereto" methods = ['GET', 'POST']>
-              <input type="submit" name="whereto" value = "{{row[0]}}"/>
+            <form action="/specify" methods = ['GET', 'POST']>
+              <input type="submit" name="specify" value = "{{row[0]}}"/>
             </form>
           </td>
        </tr>

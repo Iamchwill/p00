@@ -112,6 +112,7 @@ def createblog():
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
+    error = "ERROR: "
     entrytitle = request.args.get('entrytitle')
     entry = request.args.get('entry') 
     blogtitle = session['blogtitle']
@@ -247,6 +248,17 @@ def view():
         blog = c.fetchall()
         print(blog)
         return render_template("search.html", user = session["userID"], blog = blog)
+
+@app.route('/specify', methods = ['GET','POST'])
+def view_blog():
+    if request.method == 'POST':
+        blogtitle = request.form['spytool']
+        with sqlite3.connect(DB_FILE) as db:
+            c.execute('EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '";')
+            entries = c.fetchall()
+        return render_template("spytool.html", BlogTitle = blogtitle, entries = entries)
+    else :
+        return "ERROR"
 
 def insert(table_name, username, password): #insert user and password into table
     with sqlite3.connect(DB_FILE) as db:
