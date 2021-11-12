@@ -28,16 +28,26 @@ Nov 12, 2021
       </thead>
 
       {% for row in entries %}
+        <form action="/edit" method = 'POST'>
          <tr>
+
             <td><div style="word-wrap: break-word; width: 200px"></div>{{row["EntryTitle"]}}</td>
             <td><div style="word-wrap: break-word; width: 700px">{{row["Entry"]}}</div></td>
+<<<<<<< HEAD
 
             </td>
             <td><div style="word-wrap: break-word; width: 50px"></div>
               <form action="/edit" methods = ['GET', 'POST']>
               <input type="submit" name="edit" value = "Edit">
               </form></td>
+=======
+            <td><div style="word-wrap: break-word; width: 50px"></div>            
+                <button type="submit" name="edit" value = "{{row["EntryTitle"]}}">Edit</button>
+            </td>
+
+>>>>>>> 9c1afad3bc16160a73e606d033443f6845605eda
          </tr>
+        </form>
       {% endfor %}
     </table>
 
