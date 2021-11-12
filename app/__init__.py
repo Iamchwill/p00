@@ -112,7 +112,6 @@ def createblog():
 
 @app.route("/createentries", methods=['GET', 'POST'])
 def createentries():
-    error = "ERROR: "
     entrytitle = request.args.get('entrytitle')
     entry = request.args.get('entry') 
     blogtitle = session['blogtitle']
@@ -230,15 +229,31 @@ def list():
 def edit():
     if request.method == 'POST':
         entrytitle = request.form['edit']
+        session['entrytitle'] = entrytitle
         with sqlite3.connect(DB_FILE) as db:
             c = db.cursor()
             c.execute("select Entry FROM entryinfo WHERE EntryTitle = '" + entrytitle + "' ;")
             text = c.fetchall()
             for row in text:
                 entry = row[0]
-        return render_template('editpage.html', entry = entry)
+        return render_template('editpage.html', entry = entry, entrytitle = entrytitle)
     else:
         return "ERROR3"
+
+@app.route('/editentry', methods = ['GET', 'POST'])
+def editentry():
+    entry = request.args['entry']
+    entrytitle = session['entrytitle']
+    with sqlite3.connect(DB_FILE) as db:
+        c = db.cursor() 
+        c.execute("UPDATE entryinfo SET Entry = '" + entry + "' WHERE EntryTitle = '" + entrytitle + "' ;")
+        db.commit()
+
+        blogtitle = session['blogtitle']
+        c.row_factory = sqlite3.Row
+        c.execute('SELECT EntryTitle, Entry FROM entryinfo WHERE BlogTitle = "' + blogtitle + '" ;')
+        entries = c.fetchall()
+    return render_template("blog.html", BlogTitle = blogtitle, entries = entries)  
 
 @app.route('/view', methods = ['GET', 'POST'])
 def view():
