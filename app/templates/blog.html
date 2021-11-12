@@ -38,7 +38,7 @@ Nov 12, 2021
       {% endfor %}
     </table>
 
-    <form action="/createentries" method='POST'>
+    <form action="/createentries" method=['GET', 'POST']>
       <p>
         &emsp; EntryTitle: <input type="text" name="entrytitle">
         <br>
