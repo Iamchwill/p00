@@ -25,7 +25,7 @@ def authenticate():
     password = "12345"
     response = "TRY AGAIN: "
 
-    if(check_existence(request.args['username']) == False): #checks for password
+    if(check_existence('username', request.args['username']) == False or check_existence('password', request.args['password']) == False): #checks for password
         response += "incorrect username or password"
     #check for password matches uername
     #if(password doesn't match username)
@@ -100,10 +100,10 @@ def validate(name, value):
             error_message += " Passwords must match"
     return error_message
 
-def check_existence(value):
+def check_existence(c_name, value):
     with sqlite3.connect(DB_FILE) as db:
         c = db.cursor()
-        c.execute("SELECT username FROM userinfo WHERE username LIKE '%" + value + "%';")
+        c.execute("SELECT " + c_name + " FROM userinfo WHERE " +c_name + " LIKE '%" + value + "%';")
         listUsers = c.fetchall()
         print(listUsers)
         if (len(listUsers) == 0):
